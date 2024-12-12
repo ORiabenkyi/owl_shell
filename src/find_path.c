@@ -1,40 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 14:37:25 by oriabenk         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:44:52 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-/*
-Розбиваємо команду на аргументи
-*/
-char	**parse_command(char *input)
+char	*find_path(char *cmd, char **envp)
 {
-	char	**args;
-	char	*token;
+	char	**paths;
+	char	*path;
 	int		i;
+	char	*part_path;
 
-	args = malloc(100 * sizeof(char *));
 	i = 0;
-	if (!args)
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (paths[i])
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		part_path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		free(path);
+		i++;
 	}
-
-	token = strtok(input, " \t");
-	while (token != NULL)
-	{
-		args[i++] = strdup(token);
-		token = strtok(NULL, " \t");
-	}
-	args[i] = NULL;
-	return (args);
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	return (0);
 }

@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_history_from_file.c                           :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Oleksandr <o.riabenkyi@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:40:34 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/09 22:50:27 by Oleksandr        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-load history from file
-*/
-void	load_history_from_file(const char *filename)
+int	ft_toupper(int symbol)
 {
-	if (read_history(filename) != 0)
-	{
-		perror("Error read file history");
-	}
+	if (symbol >= 'a' && symbol <= 'z')
+		symbol -= 32;
+	return (symbol);
 }

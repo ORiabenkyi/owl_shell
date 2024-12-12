@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 11:57:46 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char	**args;
+	int	length;
 
-	args = parse_command(input);
-	if (args[0])
+	if (s)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		length = ft_strlen(s);
+		write(fd, s, length);
 	}
-	free_args(args);
-	free(input);
-	return (0);
 }

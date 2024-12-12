@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/11 13:59:52 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 14:21:28 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char	**args;
+	t_list	*newlst;
+	t_list	*first;
+	void	*temp;
 
-	args = parse_command(input);
-	if (args[0])
+	first = NULL;
+	if (!lst || !f || !del)
+		return (NULL);
+	while (lst != NULL)
 	{
-		if (!handle_builtin(args))
+		temp = f(lst->content);
+		newlst = ft_lstnew(temp);
+		if (newlst == NULL)
 		{
-			execute_command(args, envr);
+			del(temp);
+			ft_lstclear(&first, del);
+			return (NULL);
 		}
+		ft_lstadd_back(&first, newlst);
+		lst = lst->next;
 	}
-	free_args(args);
-	free(input);
-	return (0);
+	return (first);
 }

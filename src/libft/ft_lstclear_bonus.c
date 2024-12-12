@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/11 14:00:12 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 14:14:33 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char	**args;
+	t_list	*temp;
 
-	args = parse_command(input);
-	if (args[0])
+	if (!lst || !del)
+		return ;
+	while (*lst != NULL)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		temp = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = temp;
 	}
-	free_args(args);
-	free(input);
-	return (0);
 }

@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/11 14:00:04 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 14:12:05 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	char	**args;
-
-	args = parse_command(input);
-	if (args[0])
+	if (!lst || !f)
+		return ;
+	while (lst != NULL)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		f(lst->content);
+		lst = lst->next;
 	}
-	free_args(args);
-	free(input);
-	return (0);
 }

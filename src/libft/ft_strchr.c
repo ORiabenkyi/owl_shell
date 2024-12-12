@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 14:37:25 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 14:39:51 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-Розбиваємо команду на аргументи
-*/
-char	**parse_command(char *input)
+char	*ft_strchr(const char *str, int symbol)
 {
-	char	**args;
-	char	*token;
-	int		i;
+	size_t	counter;
 
-	args = malloc(100 * sizeof(char *));
-	i = 0;
-	if (!args)
+	counter = 0;
+	while (str[counter] != '\0')
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		if (str[counter] == (char)symbol)
+			return ((char *) &str[counter]);
+		counter++;
 	}
-
-	token = strtok(input, " \t");
-	while (token != NULL)
+	if ((char)symbol == '\0')
 	{
-		args[i++] = strdup(token);
-		token = strtok(NULL, " \t");
+		return ((char *) &str[counter]);
 	}
-	args[i] = NULL;
-	return (args);
+	return (NULL);
 }

@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/10 16:49:36 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	char	**args;
+	size_t	counter;
+	size_t	length;
 
-	args = parse_command(input);
-	if (args[0])
+	if (!s || !(*s) || !f)
+		return ;
+	length = ft_strlen(s);
+	counter = 0;
+	while (counter < length)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		(*f)(counter, &s[counter]);
+		counter++;
 	}
-	free_args(args);
-	free(input);
-	return (0);
 }

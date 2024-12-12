@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/08 12:26:34 by Oleksandr R       #+#    #+#             */
+/*   Updated: 2024/10/11 14:12:55 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	char	**args;
+	t_list	*temp;
 
-	args = parse_command(input);
-	if (args[0])
+	if (!*lst || !new)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		*lst = new;
+		return ;
 	}
-	free_args(args);
-	free(input);
-	return (0);
+	temp = ft_lstlast(*lst);
+	temp->next = new;
 }

@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_history_from_file.c                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: Oleksandr <o.riabenkyi@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:40:34 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/09 23:14:28 by Oleksandr        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-load history from file
-*/
-void	load_history_from_file(const char *filename)
+size_t	ft_strlen(const char *str)
 {
-	if (read_history(filename) != 0)
-	{
-		perror("Error read file history");
-	}
+	size_t	counter;
+
+	counter = 0;
+	while (str[counter] != '\0')
+		counter++;
+	return (counter);
 }

@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 14:37:25 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 11:57:44 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-Розбиваємо команду на аргументи
-*/
-char	**parse_command(char *input)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	**args;
-	char	*token;
-	int		i;
-
-	args = malloc(100 * sizeof(char *));
-	i = 0;
-	if (!args)
+	if (n == -2147483648)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		ft_putstr_fd("-2147483648", fd);
 	}
-
-	token = strtok(input, " \t");
-	while (token != NULL)
+	else if (n < 0)
 	{
-		args[i++] = strdup(token);
-		token = strtok(NULL, " \t");
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-n, fd);
 	}
-	args[i] = NULL;
-	return (args);
+	else if (n < 10)
+		ft_putchar_fd(n + '0', fd);
+	else
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
 }

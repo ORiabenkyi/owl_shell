@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command.c                                    :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 14:37:25 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/11 13:59:43 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 14:14:13 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-Розбиваємо команду на аргументи
-*/
-char	**parse_command(char *input)
+int	ft_lstsize(t_list *lst)
 {
-	char	**args;
-	char	*token;
-	int		i;
+	int	i;
 
-	args = malloc(100 * sizeof(char *));
 	i = 0;
-	if (!args)
+	if (!lst)
+		return (0);
+	while (lst != NULL)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
+		i++;
+		lst = lst->next;
 	}
-
-	token = strtok(input, " \t");
-	while (token != NULL)
-	{
-		args[i++] = strdup(token);
-		token = strtok(NULL, " \t");
-	}
-	args[i] = NULL;
-	return (args);
+	return (i);
 }

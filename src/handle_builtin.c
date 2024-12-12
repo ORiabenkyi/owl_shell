@@ -6,7 +6,7 @@
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 13:59:46 by oriabenk         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:04:57 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 */
 int	handle_builtin(char **args)
 {
+	int	i;
+
+	i = 0;
 	if (strcmp(args[0], "cd") == 0)
 	{
 		if (args[1] == NULL)
@@ -27,20 +30,17 @@ int	handle_builtin(char **args)
 	}
 	else if (strcmp(args[0], "exit") == 0)
 	{
+		printf("\nGood buy!\n");
 		save_history_to_file(HISTORY_FILE);
 		exit(0);
 	}
 	else if (strcmp(args[0], "history") == 0)
 	{
+		i = -1;
 		HIST_ENTRY **entries = history_list();
 		if (entries)
-		{
- 			for (int i = 0; entries[i]; i++)
-			{
+			while (entries[++i])
 				printf("%d: %s\n", i + 1, entries[i]->line);
-			}
-		}
-		return 1; // Команда оброблена
 	}
-	return 0; // Не вбудована команда
+	return (i);
 }

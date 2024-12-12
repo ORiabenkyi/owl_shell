@@ -6,7 +6,7 @@
 #    By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/12 14:21:02 by oriabenk          #+#    #+#              #
-#    Updated: 2024/12/12 14:22:49 by oriabenk         ###   ########.fr        #
+#    Updated: 2024/12/12 18:05:19 by oriabenk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ WHITE = \033[0m
 BRIGHTBLUE = \033[38;5;12m
 
 # ----- Variables -----
+LDFLAGS		= -lreadline
 NAME		=	minishell
 COMPILE 	= 	cc
 FLAGS 		= 	-Wall -Werror -Wextra
@@ -30,7 +31,9 @@ FLAGS 		= 	-Wall -Werror -Wextra
 LIBFT		=	libft.a
 LIBFTDIR	=	src/libft
 
-CFILES 		= 	src/*.c
+CFILES 		= 	src/minishell.c src/run_input.c  src/save_history_to_file.c src/parse_command.c \
+				src/load_history_from_file.c src/init_shell.c src/handle_signal.c src/handle_builtin.c \
+				src/free_args.c src/execute_command.c src/find_path.c
 OFILES 		= 	$(CFILES:.c=.o)
 
 # ----- Rules -----
@@ -43,7 +46,7 @@ $(LIBFT):
 	@echo "$(GREEN)libefty creation successful$(WHITE)\n"
 
 $(NAME):
-	$(COMPILE) $(FLAGS) $(CFILES) $(LIBFTDIR)/$(LIBFT) -o $(NAME)
+	$(COMPILE) $(FLAGS) $(LDFLAGS) $(CFILES) $(LIBFTDIR)/$(LIBFT) -o $(NAME)
 
 clean:
 	@make clean -C $(LIBFTDIR)

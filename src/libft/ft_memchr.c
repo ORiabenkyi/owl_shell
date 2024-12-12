@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 13:13:33 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+void	*ft_memchr(const void *start, int symbol, size_t size)
 {
-	char	**args;
+	const unsigned char	*ptr;
 
-	args = parse_command(input);
-	if (args[0])
+	ptr = (unsigned char *)start;
+	while (size--)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		if (*ptr == (unsigned char)symbol)
+			return ((void *)ptr);
+		ptr++;
 	}
-	free_args(args);
-	free(input);
-	return (0);
+	return (NULL);
 }

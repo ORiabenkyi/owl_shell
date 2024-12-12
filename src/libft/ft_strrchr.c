@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/11 13:08:12 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+char	*ft_strrchr(const char *str, int symbol)
 {
-	char	**args;
+	char	*copy_str;
+	size_t	counter;
 
-	args = parse_command(input);
-	if (args[0])
+	copy_str = NULL;
+	counter = 0;
+	while (str[counter] != '\0')
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		if (str[counter] == (char)symbol)
+			copy_str = (char *) &str[counter];
+		counter++;
 	}
-	free_args(args);
-	free(input);
-	return (0);
+	if (str[counter] == (char)symbol)
+		copy_str = (char *) &str[counter];
+	return (copy_str);
 }

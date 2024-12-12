@@ -6,7 +6,7 @@
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:29:28 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 14:15:39 by oriabenk         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:42:54 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ int	main(int quant, char **args, char **envr)
 	char	*input;
 
 	init_shell();
+	if (quant == 0)
+		while (args++ != 0)
+			return (0);
 	while (1)
 	{
 		input = readline("osh> ");

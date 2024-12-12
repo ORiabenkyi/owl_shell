@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_input.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 17:52:23 by oriabenk         ###   ########.fr       */
+/*   Created: 2024/10/07 13:20:06 by oriabenk          #+#    #+#             */
+/*   Updated: 2024/10/10 12:56:53 by oriabenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "libft.h"
 
-/*
-обробка сигналів
-*/
-int	run_input(char *input, char **envr)
+char	*ft_strdup(const char *income_str)
 {
-	char	**args;
+	int		length;
+	int		counter;
+	char	*outcome_str;
 
-	args = parse_command(input);
-	if (args[0])
+	length = ft_strlen(income_str);
+	counter = 0;
+	outcome_str = (char *)malloc((length + 1) * sizeof(char));
+	if (!outcome_str)
+		return (NULL);
+	while (counter < length)
 	{
-		if (!handle_builtin(args))
-		{
-			execute_command(args, envr);
-		}
+		outcome_str[counter] = income_str[counter];
+		counter++;
 	}
-	free_args(args);
-	free(input);
-	return (0);
+	outcome_str[counter] = '\0';
+	return (outcome_str);
 }
