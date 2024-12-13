@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ORiabenkyi <o.riabenkyi@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 20:36:04 by ORiabenkyi       ###   ########.fr       */
+/*   Updated: 2024/12/12 19:59:24 by ORiabenkyi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Run extended command
+init token
 */
-void	execute_command(char **args, char **envr)
+void	init_token(t_token	*token)
 {
-	pid_t	pid;
-	char	*path;
-
-	path = find_path(args[0], envr);
-	if (!path)
+	token = malloc(sizeof(t_token));
+	if (!token)
 	{
-		perror("find path");
-		return ;
-	}
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(path, &args[0], envr) == -1)
-			perror("execve");
+		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("fork");
+	token->tokens = NULL;
+	token->count = 0;
 }

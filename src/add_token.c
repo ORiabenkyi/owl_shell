@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   add_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ORiabenkyi <o.riabenkyi@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 20:36:04 by ORiabenkyi       ###   ########.fr       */
+/*   Updated: 2024/12/12 20:27:56 by ORiabenkyi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Run extended command
+add new token
 */
-void	execute_command(char **args, char **envr)
+void add_token(t_token *token_list, const char *token)
 {
-	pid_t	pid;
-	char	*path;
-
-	path = find_path(args[0], envr);
-	if (!path)
+    token_list->tokens = realloc(token_list->tokens, (token_list->count + 1) * sizeof(char *));
+    if (!token_list->tokens)
 	{
-		perror("find path");
-		return ;
-	}
-	pid = fork();
-	if (pid == 0)
+        perror("realloc");
+        exit(EXIT_FAILURE);
+    }
+    token_list->tokens[token_list->count] = strdup(token);
+    if (!token_list->tokens[token_list->count])
 	{
-		if (execve(path, &args[0], envr) == -1)
-			perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("fork");
+        perror("strdup");
+        exit(EXIT_FAILURE);
+    }
+    token_list->count++;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oriabenk <oriabenk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ORiabenkyi <o.riabenkyi@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:29:45 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 18:09:59 by oriabenk         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:33:41 by ORiabenkyi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 
 # define HISTORY_FILE ".msh_history"
 
+typedef struct s_token {
+    char **tokens;
+    int count;
+} t_token;
+
 int		init_shell(void);
 
 void	load_history_from_file(const char *filename);
@@ -40,5 +45,12 @@ void	handle_signal(int sig);
 
 char	*find_path(char *cmd, char **envp);
 int		run_input(char *input, char **envr);
+
+/*token blok*/
+void    add_token(t_token *token_list, const char *token);
+void	init_token(t_token	*token);
+void	special_token(const char *ptr, t_token	*token);
+t_token	*tokenize_input(const char *input);
+void	free_token_list(t_token *token_list);
 
 #endif

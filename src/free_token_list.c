@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   free_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ORiabenkyi <o.riabenkyi@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 20:36:04 by ORiabenkyi       ###   ########.fr       */
+/*   Updated: 2024/12/12 20:33:27 by ORiabenkyi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Run extended command
+free token
 */
-void	execute_command(char **args, char **envr)
+void	free_token_list(t_token *token_list)
 {
-	pid_t	pid;
-	char	*path;
-
-	path = find_path(args[0], envr);
-	if (!path)
+	for (int i = 0; i < token_list->count; i++)
 	{
-		perror("find path");
-		return ;
+		free(token_list->tokens[i]);
 	}
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(path, &args[0], envr) == -1)
-			perror("execve");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("fork");
+	free(token_list->tokens);
+	free(token_list);
 }

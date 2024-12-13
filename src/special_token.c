@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   special_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ORiabenkyi <o.riabenkyi@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:30:35 by oriabenk          #+#    #+#             */
-/*   Updated: 2024/12/12 20:36:04 by ORiabenkyi       ###   ########.fr       */
+/*   Updated: 2024/12/12 20:11:14 by ORiabenkyi       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Run extended command
+init token
 */
-void	execute_command(char **args, char **envr)
+void	special_token(const char *ptr, t_token	*token)
 {
-	pid_t	pid;
-	char	*path;
+	char quote;
+	char buffer[1024];
+	int buf_index;
 
-	path = find_path(args[0], envr);
-	if (!path)
+	buf_index = 0;
+	quote = *ptr++;
+	while (*ptr && *ptr != quote)
 	{
-		perror("find path");
-		return ;
+		if (*ptr == '\\' && *(ptr + 1))
+		{
+			buffer[buf_index++] = *(++ptr); // Екранований символ
+		}
+		else
+		{
+			buffer[buf_index++] = *ptr;
+		}
+		ptr++;
 	}
-	pid = fork();
-	if (pid == 0)
+	if (*ptr == quote)
 	{
-		if (execve(path, &args[0], envr) == -1)
-			perror("execve");
-		exit(EXIT_FAILURE);
+		ptr++; // Закриваємо лапки
 	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("fork");
+	buffer[buf_index] = '\0';
+	add_token(token, buffer);
+	buf_index = 0;
 }
